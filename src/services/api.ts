@@ -36,7 +36,12 @@ async function request(path: string, options: RequestInit = {}): Promise<any> {
 
   if (res.status === 401) {
     removeToken();
-    window.location.reload();
+    
+    // اگر کاربر در صفحه اول (لاگین) نیست، او را به صفحه اول بفرست
+    if (window.location.pathname !== '/') {
+      window.location.href = '/';
+    }
+    
     throw new Error('unauthorized');
   }
 
