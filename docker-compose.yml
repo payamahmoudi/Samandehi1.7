@@ -1,0 +1,32 @@
+# ━━━━━━━━ سامانهٔ ساماندهی نیرو — استقرار یک‌دستوره ━━━━━━━━
+# اجرا:  docker compose up -d --build
+# سپس سامانه روی  http://SERVER_IP  در دسترس است.
+
+services:
+  backend:
+    build: ./server
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      APP_ENV: production
+      DATABASE_URL: "sqlite:///./data/saman_edu.db"
+    volumes:
+      - backend_data:/app/data        # پایگاه‌داده ماندگار (بکاپ از همین پوشه)
+    expose:
+      - "8000"                          # فقط در شبکهٔ داخلی؛ بیرون منتشر نمی‌شود
+
+  frontend:
+    build:
+      context: .
+      args:
+        VITE_API_BASE_URL: ""          # same-origin؛ Nginx مسیر /api را پروکسی می‌کند
+        VITE_BACKUP_SECRET: "${VITE_BACKUP_SECRET:-}"
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${WEB_PORT:-80}:80"           # سامانه روی این پورت سرو می‌شود
+
+volumes:
+  backend_data:
