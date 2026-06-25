@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.env
+*.local
+*.log
+
+# Python
+server/venv/
+server/__pycache__/
+**/__pycache__/
+*.pyc
+
+# Database
+*.db
+server/data/
+
+.DS_Store
