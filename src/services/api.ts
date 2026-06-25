@@ -37,9 +37,9 @@ async function request(path: string, options: RequestInit = {}): Promise<any> {
   if (res.status === 401) {
     removeToken();
     
-    // اگر کاربر در صفحه اول (لاگین) نیست، او را به صفحه اول بفرست
-    if (window.location.pathname !== '/') {
-      window.location.href = '/';
+    // استفاده از آدرس دقیق مخزن شما در گیت‌هاب پیجز
+    if (window.location.pathname !== '/Samandehi1.7/') {
+      window.location.href = '/Samandehi1.7/';
     }
     
     throw new Error('unauthorized');
